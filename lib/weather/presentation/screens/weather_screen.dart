@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+const defaultCity = 'Nairobi';
+
 class WeatherScreen extends StatefulWidget {
   const WeatherScreen({super.key});
 
@@ -18,6 +20,12 @@ class WeatherScreen extends StatefulWidget {
 
 class _WeatherScreenState extends State<WeatherScreen> {
   final TextEditingController _cityController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<WeatherBloc>().add(const FetchWeather(defaultCity));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +77,11 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           context.read<WeatherBloc>().add(FetchWeather(city));
                         }
                       },
+                      onSuffixTap: () {
+                        context
+                            .read<WeatherBloc>()
+                            .add(const FetchWeather(defaultCity));
+                      },
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -108,7 +121,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         child: Column(
                           children: [
                             Text(
-                              state.weatherData['name'] as String,
+                              "${state.weatherData['name'] as String? ?? ''}, ${state.weatherData['sys']['country'] as String? ?? ''}",
                               style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -123,16 +136,17 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               ),
                             ),
                             Text(
-                              'Feels like ${double.parse(state.weatherData['main']['temp'].toString()).toStringAsFixed(0)}°C',
+                              'Feels like ${double.parse(state.weatherData['main']['feels_like'].toString()).toStringAsFixed(0)}°C',
                               style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w300,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              state.weatherData['weather'][0]['description']
-                                  .toString(),
+                              state.weatherData['weather']?[0]?['description']
+                                      as String? ??
+                                  '',
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w300,
@@ -184,7 +198,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 },
                               ),
                             ),
-                            const SizedBox(height: 20),
+
+                            const Divider(
+                              height: 20,
+                            ),
 
                             // Tomorrow's Forecast
                             Container(
