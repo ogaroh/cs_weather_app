@@ -86,9 +86,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   ),
                   const SizedBox(width: 10),
                   FilledButton(
-                    onPressed: _cityController.text.isEmpty
-                        ? null
-                        : () {
+                    onPressed: () {
                       final city = _cityController.text.trim();
                       if (city.isNotEmpty) {
                         context.read<WeatherBloc>().add(FetchWeather(city));
