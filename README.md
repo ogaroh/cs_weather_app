@@ -12,6 +12,13 @@ A Very Good Project created by Very Good CLI.
 
 ## Getting Started 🚀
 
+### IMPORTANT!!!!
+
+#### Environment Setup
+
+- Make a copy of the `.env.example` file and name it `.env`.
+- In the `.env` file, modify the `BASE_URL` and the `API_KEY` values to the correct ones (e.g. `BASE_URL=http://api.openweathermap.org/data/2.5`. Pleaseote that the base url does not have the trailing `/`.). Without these the application will not run as required.
+
 This project contains 3 flavors:
 
 - development
