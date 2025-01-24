@@ -63,12 +63,12 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           context.read<WeatherBloc>().add(FetchWeather(city));
                         }
                       },
-                      // onChanged: (value) {
-                      //   final city = value.trim();
-                      //   if (city.isNotEmpty) {
-                      //     context.read<WeatherBloc>().add(FetchWeather(city));
-                      //   }
-                      // },
+                      onChanged: (value) {
+                        final city = value.trim();
+                        if (city.isNotEmpty) {
+                          context.read<WeatherBloc>().add(FetchWeather(city));
+                        }
+                      },
                     ),
                   ),
                   const SizedBox(width: 10),
