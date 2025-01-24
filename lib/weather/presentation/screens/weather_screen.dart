@@ -1,8 +1,6 @@
 // screens/weather_screen.dart
 // ignore_for_file: avoid_dynamic_calls, lines_longer_than_80_chars
 
-import 'dart:developer';
-
 import 'package:assessment/weather/presentation/blocs/weather_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -113,8 +111,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           DateTime.parse(item['dt_txt'] as String);
                       return forecastDate.day == now.day + 1;
                     });
-
-                    log(state.weatherData.toString());
 
                     return Expanded(
                       child: SingleChildScrollView(
