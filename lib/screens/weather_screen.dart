@@ -19,9 +19,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         title: Padding(
           padding: const EdgeInsets.all(16),
           child: Image.asset(
@@ -44,12 +42,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   Expanded(
                     child: TextField(
                       controller: _cityController,
-                      style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         hintText: 'Enter City',
-                        hintStyle: const TextStyle(color: Colors.white70),
                         filled: true,
-                        fillColor: Colors.white10,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide.none,
@@ -65,7 +60,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         context.read<WeatherBloc>().add(FetchWeather(city));
                       }
                     },
-                    icon: const Icon(Icons.search, color: Colors.white),
+                    icon: const Icon(Icons.search),
                   ),
                 ],
               ),
@@ -75,7 +70,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 builder: (context, state) {
                   if (state is WeatherLoading) {
                     return const Center(
-                      child: CircularProgressIndicator(color: Colors.white),
+                      child: CircularProgressIndicator.adaptive(),
                     );
                   } else if (state is WeatherLoaded) {
                     // Current Weather
@@ -96,16 +91,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
                               ),
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              '${state.weatherData['main']['temp']}°C',
+                              '${double.parse(state.weatherData['main']['temp'].toString()).toStringAsFixed(0)}°C',
                               style: const TextStyle(
                                 fontSize: 64,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
                               ),
                             ),
                             const SizedBox(height: 10),
@@ -115,7 +108,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w300,
-                                color: Colors.white,
                               ),
                             ),
                             const SizedBox(height: 20),
@@ -136,7 +128,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                     child: Column(
                                       children: [
                                         Text(
-                                          '${forecast['main']['temp']}°C',
+                                          '${double.parse(forecast['main']['temp'].toString()).toStringAsFixed(0)}°C',
                                           style: const TextStyle(
                                             color: Colors.white,
                                           ),
@@ -144,8 +136,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                         const SizedBox(height: 5),
                                         SvgPicture.asset(
                                           'assets/images/svg/cloudy.svg',
-                                          colorFilter: const ColorFilter.mode(
-                                            Colors.white,
+                                          colorFilter: ColorFilter.mode(
+                                            Colors.blue.shade900,
                                             BlendMode.srcIn,
                                           ),
                                           height: 40,
@@ -155,9 +147,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                           forecast['dt_txt']
                                               .split(' ')[1]
                                               .toString(),
-                                          style: const TextStyle(
-                                            color: Colors.white70,
-                                          ),
+                                          style: const TextStyle(),
                                         ),
                                       ],
                                     ),
@@ -171,7 +161,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             Container(
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Column(
@@ -181,7 +170,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white,
                                     ),
                                   ),
                                   const SizedBox(height: 10),
@@ -190,17 +178,16 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        '${tomorrowForecast['main']['temp_min']}°C / ${tomorrowForecast['main']['temp_max']}°C',
+                                        '${double.parse(tomorrowForecast['main']['temp_min'].toString()).toStringAsFixed(0)}°C / ${double.parse(tomorrowForecast['main']['temp_max'].toString()).toStringAsFixed(0)}°C',
                                         style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w500,
-                                          color: Colors.white,
                                         ),
                                       ),
                                       SvgPicture.asset(
                                         'assets/images/svg/cloudy.svg',
-                                        colorFilter: const ColorFilter.mode(
-                                          Colors.white,
+                                        colorFilter: ColorFilter.mode(
+                                          Colors.blue.shade900,
                                           BlendMode.srcIn,
                                         ),
                                         height: 40,
@@ -209,9 +196,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                         tomorrowForecast['weather'][0]
                                                 ['description']
                                             .toString(),
-                                        style: const TextStyle(
-                                          color: Colors.white70,
-                                        ),
+                                        style: const TextStyle(),
                                       ),
                                     ],
                                   ),
@@ -233,7 +218,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   return const Center(
                     child: Text(
                       'Enter a city to get started.',
-                      style: TextStyle(color: Colors.white70),
                     ),
                   );
                 },
