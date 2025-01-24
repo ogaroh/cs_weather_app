@@ -1,7 +1,10 @@
 // screens/weather_screen.dart
 // ignore_for_file: avoid_dynamic_calls, lines_longer_than_80_chars
 
-import 'package:assessment/blocs/weather_bloc.dart';
+import 'dart:developer';
+
+import 'package:assessment/weather/presentation/blocs/weather_bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -36,31 +39,47 @@ class _WeatherScreenState extends State<WeatherScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Text(
+                  'Weather App',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w900,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: TextField(
+                    child: CupertinoSearchTextField(
                       controller: _cityController,
-                      decoration: InputDecoration(
-                        hintText: 'Enter City',
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
+                      placeholder: 'Enter the name of the city',
+                      onSubmitted: (value) {
+                        final city = value.trim();
+                        if (city.isNotEmpty) {
+                          context.read<WeatherBloc>().add(FetchWeather(city));
+                        }
+                      },
+                      // onChanged: (value) {
+                      //   final city = value.trim();
+                      //   if (city.isNotEmpty) {
+                      //     context.read<WeatherBloc>().add(FetchWeather(city));
+                      //   }
+                      // },
                     ),
                   ),
                   const SizedBox(width: 10),
-                  IconButton(
+                  FilledButton(
                     onPressed: () {
                       final city = _cityController.text.trim();
                       if (city.isNotEmpty) {
                         context.read<WeatherBloc>().add(FetchWeather(city));
                       }
                     },
-                    icon: const Icon(Icons.search),
+                    child: const Text('Search'),
                   ),
                 ],
               ),
@@ -70,7 +89,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 builder: (context, state) {
                   if (state is WeatherLoading) {
                     return const Center(
-                      child: CircularProgressIndicator.adaptive(),
+                      child: CupertinoActivityIndicator(),
                     );
                   } else if (state is WeatherLoaded) {
                     // Current Weather
@@ -81,6 +100,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           DateTime.parse(item['dt_txt'] as String);
                       return forecastDate.day == now.day + 1;
                     });
+
+                    log(state.weatherData.toString());
 
                     return Expanded(
                       child: SingleChildScrollView(
@@ -101,6 +122,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                            Text(
+                              'Feels like ${double.parse(state.weatherData['main']['temp'].toString()).toStringAsFixed(0)}°C',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
                             const SizedBox(height: 10),
                             Text(
                               state.weatherData['weather'][0]['description']
@@ -110,6 +138,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 fontWeight: FontWeight.w300,
                               ),
                             ),
+
                             const SizedBox(height: 20),
 
                             // Hourly Forecast

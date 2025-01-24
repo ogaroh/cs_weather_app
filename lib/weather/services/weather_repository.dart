@@ -9,7 +9,7 @@ class WeatherRepository {
   final String _apiKey = dotenv.env['API_KEY'] ?? '';
   final String _baseUrl = dotenv.env['BASE_URL'] ?? '';
 
-
+// fetch current weather
   Future<Map<String, dynamic>> fetchCurrentWeather(String city) async {
     final response = await _dio.get(
       '$_baseUrl/weather',
@@ -22,6 +22,7 @@ class WeatherRepository {
     return response.data as Map<String, dynamic>;
   }
 
+  // fetch the weather forecast
   Future<Map<String, dynamic>> fetchWeatherForecast(String city) async {
     final response = await _dio.get(
       '$_baseUrl/forecast',

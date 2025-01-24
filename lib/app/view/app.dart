@@ -1,7 +1,9 @@
-import 'package:assessment/blocs/weather_bloc.dart';
+// ignore_for_file: lines_longer_than_80_chars
+
+import 'package:assessment/weather/presentation/blocs/weather_bloc.dart';
 import 'package:assessment/l10n/l10n.dart';
-import 'package:assessment/screens/weather_screen.dart';
-import 'package:assessment/services/weather_repository.dart';
+import 'package:assessment/weather/presentation/screens/weather_screen.dart';
+import 'package:assessment/weather/services/weather_repository.dart';
 import 'package:assessment/theme/theme.dart';
 import 'package:assessment/theme/util.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brightness = View.of(context).platformDispatcher.platformBrightness;
+    // final brightness = View.of(context).platformDispatcher.platformBrightness;
 
     final textTheme = createTextTheme(context, 'Lato', 'Lato');
 
@@ -25,7 +27,8 @@ class App extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        theme: brightness == Brightness.light ? theme.light() : theme.dark(),
+        // theme: brightness == Brightness.light ? theme.light() : theme.dark(),
+        theme: theme.light(),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: const WeatherScreen(),
