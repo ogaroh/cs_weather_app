@@ -1,7 +1,6 @@
 # WeatherApp
 
 A Flutter project using the openweather API with best-practices.
----
 
 ## Getting Started 🚀
 #### IMPORTANT!!!! ---- Environment Setup
