@@ -48,11 +48,17 @@ class _WeatherScreenState extends State<WeatherScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 10,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100.withOpacity(0.7),
+                  ),
                   child: Image.asset(
                     'assets/images/png/cs_logo.png',
-                    height: 40,
+                    height: 30,
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -63,7 +69,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey.shade300,
+                      color: Colors.grey.shade100.withOpacity(0.9),
                     ),
                   ),
                 ),
@@ -74,11 +80,15 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       child: CupertinoSearchTextField(
                         controller: _cityController,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade100.withOpacity(0.4),
+                          color: Colors.grey.shade100.withOpacity(0.5),
                           borderRadius: BorderRadius.circular(100),
                         ),
                         prefixIcon: Icon(
                           CupertinoIcons.search,
+                          color: Colors.grey.shade100,
+                        ),
+                        suffixIcon: Icon(
+                          CupertinoIcons.clear_thick_circled,
                           color: Colors.grey.shade100,
                         ),
                         placeholder: 'Enter the name of the city',
@@ -89,7 +99,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           fontWeight: FontWeight.normal,
                         ),
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 14,
                           color: Colors.grey.shade100,
                           fontFamily: GoogleFonts.lato().fontFamily,
                           fontWeight: FontWeight.bold,
@@ -122,7 +132,17 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           context.read<WeatherBloc>().add(FetchWeather(city));
                         }
                       },
-                      child: const Text('Search'),
+                      style: FilledButton.styleFrom(
+                        foregroundColor: Colors.black87,
+                        backgroundColor: Colors.grey.shade100,
+                      ),
+                      child: const Text(
+                        'Search',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ],
                 ),
