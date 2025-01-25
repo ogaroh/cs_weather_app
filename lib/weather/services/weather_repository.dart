@@ -1,13 +1,13 @@
 // services/weather_repository.dart
 // ignore_for_file: inference_failure_on_function_invocation
 
+import 'package:assessment/shared/constants/constants.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class WeatherRepository {
   final Dio _dio = Dio();
-  final String _apiKey = dotenv.env['API_KEY'] ?? '';
-  final String _baseUrl = dotenv.env['BASE_URL'] ?? '';
+  final String _apiKey = kApiKey;
+  final String _baseUrl = kBaseUrl;
 
 // fetch current weather
   Future<Map<String, dynamic>> fetchCurrentWeather(String city) async {
