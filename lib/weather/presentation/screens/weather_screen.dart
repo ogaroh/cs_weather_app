@@ -48,32 +48,42 @@ class _WeatherScreenState extends State<WeatherScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 10,
-                  ),
-                  margin: const EdgeInsets.only(top: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade100.withOpacity(0.7),
-                  ),
-                  child: Image.asset(
-                    'assets/images/png/cs_logo.png',
-                    height: 30,
-                    fit: BoxFit.contain,
-                  ),
-                ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    'Weather Forecast',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey.shade100.withOpacity(0.9),
-                    ),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 10,
+                        ),
+                        margin: EdgeInsets.only(top: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100.withOpacity(0.7),
+                        ),
+                        child: Image.asset(
+                          'assets/images/png/cs_logo.png',
+                          height: 30,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 0),
+                        child: Text(
+                          'Weather Forecast',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey.shade100.withOpacity(0.9),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -82,7 +92,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         controller: _cityController,
                         decoration: BoxDecoration(
                           color: Colors.grey.shade100.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(100),
+                          borderRadius: BorderRadius.circular(80),
                         ),
                         prefixIcon: Icon(
                           CupertinoIcons.search,
@@ -195,7 +205,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               children: [
                                 Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(8),
                                     color: Colors.grey.shade100,
                                   ),
                                   child: Column(
@@ -232,8 +242,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                           color: Colors.blue.shade800,
                                         ),
                                       ),
-
-                                      const SizedBox(height: 20),
 
                                       // Hourly Forecast
                                       Container(
@@ -278,7 +286,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                                   Icon(
                                                     hourlyIcon.icon,
                                                     color: hourlyIcon.color,
-                                                    size: 30,
+                                                    size: 20,
                                                   ),
                                                   const SizedBox(height: 8),
                                                   Text(
@@ -322,7 +330,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 Container(
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(8),
                                     color: Colors.grey.shade100,
                                   ),
                                   child: Column(
@@ -372,7 +380,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
                                     color: Colors.grey.shade100,
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
@@ -503,9 +511,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
+
                                 TextButton.icon(
                                   onPressed: () async {
                                     // launch my porfolio
@@ -518,11 +524,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                     Icons.mobile_friendly,
                                     size: 18,
                                   ),
-                                  label: const Text(
+                                  label: Text(
                                     'Crafted by Erick Ogaro',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 11,
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Colors.grey.shade100,
+                                      decorationThickness: 1.5,
                                     ),
                                   ),
                                   style: TextButton.styleFrom(
