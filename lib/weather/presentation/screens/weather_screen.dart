@@ -153,8 +153,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 BlocBuilder<WeatherBloc, WeatherState>(
                   builder: (context, state) {
                     if (state is WeatherLoading) {
-                      return const Center(
-                        child: CupertinoActivityIndicator(),
+                      return Center(
+                        child: CupertinoActivityIndicator(
+                          color: Colors.grey.shade100,
+                        ),
                       );
                     } else if (state is WeatherLoaded) {
                       // Current Weather
@@ -175,310 +177,353 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           getWeatherIcon(tomorrowCondition);
 
                       return Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Colors.grey.shade100,
+                        child: RefreshIndicator.adaptive(
+                          onRefresh: () async {
+                            if (_cityController.text.isNotEmpty) {
+                              context.read<WeatherBloc>().add(
+                                  FetchWeather(_cityController.text.trim()));
+                            } else {
+                              context
+                                  .read<WeatherBloc>()
+                                  .add(const FetchWeather(defaultCity));
+                            }
+                          },
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.grey.shade100,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        "${state.weatherData['name'] as String? ?? ''}, ${state.weatherData['sys']['country'] as String? ?? ''}",
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        '${double.parse(state.weatherData['main']['temp'].toString()).toStringAsFixed(0)}°C',
+                                        style: const TextStyle(
+                                          fontSize: 64,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Feels like ${double.parse(state.weatherData['main']['feels_like'].toString()).toStringAsFixed(0)}°C',
+                                        style: const TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      Text(
+                                        state.weatherData['weather']?[0]
+                                                ?['description'] as String? ??
+                                            '',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.blue.shade800,
+                                        ),
+                                      ),
+
+                                      const SizedBox(height: 20),
+
+                                      // Hourly Forecast
+                                      Container(
+                                        height: 120,
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: 8,
+                                          itemBuilder: (context, index) {
+                                            final forecast = state
+                                                .forecastData['list'][index];
+                                            final hourlyCondition =
+                                                forecast['weather']?[0]
+                                                            ?['description']
+                                                        ?.toString() ??
+                                                    '';
+                                            final hourlyIcon =
+                                                getWeatherIcon(hourlyCondition);
+
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 8,
+                                                vertical: 8,
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(
+                                                    '${double.parse(forecast['main']['temp'].toString()).toStringAsFixed(0)}°C',
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 5),
+                                                  Icon(
+                                                    hourlyIcon.icon,
+                                                    color: hourlyIcon.color,
+                                                    size: 30,
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  Text(
+                                                    hourlyCondition,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontSize: 9,
+                                                      color:
+                                                          Colors.grey.shade700,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    DateFormat('HH:mm').format(
+                                                      DateTime.parse(
+                                                        forecast['dt_txt']
+                                                            .toString(),
+                                                      ),
+                                                    ),
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 10,
+                                                      color:
+                                                          Colors.grey.shade700,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                child: Column(
-                                  children: [
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      "${state.weatherData['name'] as String? ?? ''}, ${state.weatherData['sys']['country'] as String? ?? ''}",
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      '${double.parse(state.weatherData['main']['temp'].toString()).toStringAsFixed(0)}°C',
-                                      style: const TextStyle(
-                                        fontSize: 64,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Feels like ${double.parse(state.weatherData['main']['feels_like'].toString()).toStringAsFixed(0)}°C',
-                                      style: const TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    Text(
-                                      state.weatherData['weather']?[0]
-                                              ?['description'] as String? ??
-                                          '',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.grey.shade700,
-                                      ),
-                                    ),
 
-                                    const SizedBox(height: 20),
+                                const SizedBox(height: 8),
 
-                                    // Hourly Forecast
-                                    Container(
-                                      height: 120,
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 16),
-                                      child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: 8,
+                                // Tomorrow's Forecast
+                                Container(
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.grey.shade100,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Tomorrow',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue.shade800,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            '${double.parse(tomorrowForecast['main']['temp_min'].toString()).toStringAsFixed(0)}°C / ${double.parse(tomorrowForecast['main']['temp_max'].toString()).toStringAsFixed(0)}°C',
+                                            style: const TextStyle(
+                                              // fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          Icon(
+                                            tomorrowWeatherIcon.icon,
+                                            color: tomorrowWeatherIcon.color,
+                                            size: 20,
+                                          ),
+                                          Text(
+                                            tomorrowCondition,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.blue.shade800,
+                                              fontSize: 11,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                // 5-Day Forecast
+                                Container(
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade100,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '5-Day Forecast',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue.shade800,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: 5,
                                         itemBuilder: (context, index) {
-                                          final forecast =
-                                              state.forecastData['list'][index];
-                                          final hourlyCondition =
-                                              forecast['weather']?[0]
-                                                          ?['description']
-                                                      ?.toString() ??
-                                                  '';
-                                          final hourlyIcon =
-                                              getWeatherIcon(hourlyCondition);
+                                          final forecast = state
+                                              .forecastData['list']
+                                              .where((dynamic item) {
+                                            // Filter to get one forecast per day at midday (12:00)
+                                            final time = DateTime.parse(
+                                              item['dt_txt'] as String,
+                                            );
+                                            return time.hour == 12;
+                                          }).toList()[index];
+
+                                          final dayName =
+                                              DateFormat('EEE').format(
+                                            DateTime.parse(
+                                              forecast['dt_txt'] as String,
+                                            ),
+                                          );
+                                          final date =
+                                              DateFormat('d MMM').format(
+                                            DateTime.parse(
+                                              forecast['dt_txt'] as String,
+                                            ),
+                                          );
+                                          final temp = double.parse(
+                                            forecast['main']['temp'].toString(),
+                                          ).toStringAsFixed(0);
+
+                                          final condition = forecast['weather']
+                                                      ?[0]?['description']
+                                                  ?.toString() ??
+                                              '';
+                                          final weatherIcon =
+                                              getWeatherIcon(condition);
 
                                           return Padding(
                                             padding: const EdgeInsets.symmetric(
-                                              horizontal: 8,
                                               vertical: 8,
                                             ),
                                             child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.stretch,
                                               children: [
-                                                Text(
-                                                  '${double.parse(forecast['main']['temp'].toString()).toStringAsFixed(0)}°C',
-                                                  style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 5),
-                                                Icon(
-                                                  hourlyIcon.icon,
-                                                  color: hourlyIcon.color,
-                                                  size: 30,
-                                                ),
-                                                const SizedBox(height: 8),
-                                                Text(
-                                                  hourlyCondition,
-                                                  style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 9,
-                                                    color: Colors.grey.shade700,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  DateFormat('HH:mm').format(
-                                                    DateTime.parse(
-                                                      forecast['dt_txt']
-                                                          .toString(),
-                                                    ),
-                                                  ),
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 10,
-                                                    color: Colors.grey.shade700,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              const SizedBox(height: 8),
-
-                              // Tomorrow's Forecast
-                              Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Colors.grey.shade100,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Tomorrow',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.blue.shade800,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          '${double.parse(tomorrowForecast['main']['temp_min'].toString()).toStringAsFixed(0)}°C / ${double.parse(tomorrowForecast['main']['temp_max'].toString()).toStringAsFixed(0)}°C',
-                                          style: const TextStyle(
-                                            // fontSize: 18,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        Icon(
-                                          tomorrowWeatherIcon.icon,
-                                          color: tomorrowWeatherIcon.color,
-                                          size: 20,
-                                        ),
-                                        Text(
-                                          tomorrowCondition,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.blue.shade800,
-                                            fontSize: 11,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              // 5-Day Forecast
-                              Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '5-Day Forecast',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.blue.shade800,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: 5,
-                                      itemBuilder: (context, index) {
-                                        final forecast = state
-                                            .forecastData['list']
-                                            .where((dynamic item) {
-                                          // Filter to get one forecast per day at midday (12:00)
-                                          final time = DateTime.parse(
-                                            item['dt_txt'] as String,
-                                          );
-                                          return time.hour == 12;
-                                        }).toList()[index];
-
-                                        final dayName =
-                                            DateFormat('EEE').format(
-                                          DateTime.parse(
-                                            forecast['dt_txt'] as String,
-                                          ),
-                                        );
-                                        final date = DateFormat('d MMM').format(
-                                          DateTime.parse(
-                                            forecast['dt_txt'] as String,
-                                          ),
-                                        );
-                                        final temp = double.parse(
-                                          forecast['main']['temp'].toString(),
-                                        ).toStringAsFixed(0);
-
-                                        final condition = forecast['weather']
-                                                    ?[0]?['description']
-                                                ?.toString() ??
-                                            '';
-                                        final weatherIcon =
-                                            getWeatherIcon(condition);
-
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 8,
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.stretch,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Container(
-                                                    width: width / 2.5,
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                      right: 8,
-                                                    ),
-                                                    child: Text(
-                                                      '$dayName, $date',
-                                                      style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 11,
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Container(
+                                                      width: width / 2.5,
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                        right: 8,
                                                       ),
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Icon(
-                                                        weatherIcon.icon,
-                                                        color:
-                                                            weatherIcon.color,
-                                                        size: 18,
-                                                      ),
-                                                      const SizedBox(width: 8),
-                                                      Text(
-                                                        '$temp°C',
+                                                      child: Text(
+                                                        '$dayName, $date',
                                                         style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           fontSize: 11,
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
-                                                  const Spacer(),
-                                                  Text(
-                                                    condition,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 11,
-                                                      color:
-                                                          Colors.grey.shade700,
                                                     ),
-                                                    textAlign: TextAlign.end,
-                                                  ),
-                                                ],
-                                              ),
-                                              const Divider(thickness: 0.5),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Icon(
+                                                          weatherIcon.icon,
+                                                          color:
+                                                              weatherIcon.color,
+                                                          size: 18,
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 8),
+                                                        Text(
+                                                          '$temp°C',
+                                                          style:
+                                                              const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 11,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const Spacer(),
+                                                    Text(
+                                                      condition,
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 11,
+                                                        color: Colors
+                                                            .grey.shade700,
+                                                      ),
+                                                      textAlign: TextAlign.end,
+                                                    ),
+                                                  ],
+                                                ),
+                                                const Divider(thickness: 0.5),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                            ],
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                TextButton.icon(
+                                  onPressed: () {
+                                    // launch my porfolio
+                                  },
+                                  icon: const Icon(
+                                    Icons.mobile_friendly,
+                                    size: 18,
+                                  ),
+                                  label: const Text(
+                                    'Crafted by Erick Ogaro',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 11,
+                                    ),
+                                  ),
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: Colors.grey.shade100,
+                                    backgroundColor: Colors.transparent,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -486,13 +531,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       return Center(
                         child: Text(
                           state.message,
-                          style: const TextStyle(),
+                          style: TextStyle(color: Colors.grey.shade100),
                         ),
                       );
                     }
-                    return const Center(
+                    return Center(
                       child: Text(
                         'Enter a city to get started.',
+                        style: TextStyle(color: Colors.grey.shade100),
                       ),
                     );
                   },

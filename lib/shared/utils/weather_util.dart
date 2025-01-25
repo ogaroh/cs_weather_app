@@ -32,7 +32,7 @@ WeatherIcon getWeatherIcon(String condition) {
     case 'overcast clouds':
       return WeatherIcon(
         WeatherIcons.cloudy,
-        Colors.grey.shade800,
+        Colors.grey.shade600,
       );
     case 'shower rain':
       return WeatherIcon(
@@ -62,7 +62,7 @@ WeatherIcon getWeatherIcon(String condition) {
     case 'snow':
       return WeatherIcon(
         WeatherIcons.snow,
-        Colors.white,
+        Colors.lightBlue,
       );
     case 'mist':
       return WeatherIcon(
