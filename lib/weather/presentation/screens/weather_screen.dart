@@ -1,11 +1,11 @@
 // screens/weather_screen.dart
 // ignore_for_file: avoid_dynamic_calls, lines_longer_than_80_chars
 
+import 'package:assessment/shared/utils/weather_util.dart';
 import 'package:assessment/weather/presentation/blocs/weather_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 const defaultCity = 'Nairobi';
@@ -29,17 +29,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Image.asset(
-            'assets/images/png/cs_logo.png',
-            height: 45,
-            fit: BoxFit.contain,
-          ),
-        ),
-        centerTitle: true,
-      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -48,12 +37,19 @@ class _WeatherScreenState extends State<WeatherScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  'Weather App',
+                child: Image.asset(
+                  'assets/images/png/cs_logo.png',
+                  height: 40,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: const Text(
+                  'Weather Forecast',
                   style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w900,
-                    color: Theme.of(context).primaryColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -77,6 +73,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         }
                       },
                       onSuffixTap: () {
+                        _cityController.clear();
                         context
                             .read<WeatherBloc>()
                             .add(const FetchWeather(defaultCity));
@@ -112,6 +109,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           DateTime.parse(item['dt_txt'] as String);
                       return forecastDate.day == now.day + 1;
                     });
+
+                    // tomorrow conditions & icons
+                    final tomorrowCondition = tomorrowForecast['weather']?[0]
+                                ?['description']
+                            ?.toString() ??
+                        '';
+                    final tomorrowWeatherIcon =
+                        getWeatherIcon(tomorrowCondition);
 
                     return Expanded(
                       child: SingleChildScrollView(
@@ -154,13 +159,20 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
                             // Hourly Forecast
                             SizedBox(
-                              height: 100,
+                              height: 120,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: 5,
+                                itemCount: 8,
                                 itemBuilder: (context, index) {
                                   final forecast =
                                       state.forecastData['list'][index];
+                                  final hourlyCondition = forecast['weather']
+                                              ?[0]?['description']
+                                          ?.toString() ??
+                                      '';
+                                  final hourlyIcon =
+                                      getWeatherIcon(hourlyCondition);
+
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 8,
@@ -174,15 +186,20 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                           ),
                                         ),
                                         const SizedBox(height: 5),
-                                        SvgPicture.asset(
-                                          'assets/images/svg/cloudy.svg',
-                                          colorFilter: ColorFilter.mode(
-                                            Colors.blue.shade900,
-                                            BlendMode.srcIn,
-                                          ),
-                                          height: 40,
+                                        Icon(
+                                          hourlyIcon.icon,
+                                          color: hourlyIcon.color,
+                                          size: 30,
                                         ),
-                                        const SizedBox(height: 5),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          hourlyCondition,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 9,
+                                            color: Colors.grey.shade700,
+                                          ),
+                                        ),
                                         Text(
                                           DateFormat('HH:mm').format(
                                             DateTime.parse(
@@ -233,18 +250,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
-                                      SvgPicture.asset(
-                                        'assets/images/svg/cloudy.svg',
-                                        colorFilter: ColorFilter.mode(
-                                          Colors.blue.shade900,
-                                          BlendMode.srcIn,
-                                        ),
-                                        height: 40,
+                                      Icon(
+                                        tomorrowWeatherIcon.icon,
+                                        color: tomorrowWeatherIcon.color,
+                                        size: 40,
                                       ),
                                       Text(
-                                        tomorrowForecast['weather'][0]
-                                                ['description']
-                                            .toString(),
+                                        tomorrowCondition,
                                         style: const TextStyle(),
                                       ),
                                     ],
@@ -253,9 +265,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               ),
                             ),
                             // 5-Day Forecast
-                            const Divider(
-                              height: 20,
-                            ),
                             Container(
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
@@ -268,7 +277,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                   const Text(
                                     '5-Day Forecast',
                                     style: TextStyle(
-                                      fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -289,7 +297,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                         return time.hour == 12;
                                       }).toList()[index];
 
-                                      final dayName = DateFormat('EEEE').format(
+                                      final dayName = DateFormat('EEE').format(
                                         DateTime.parse(
                                           forecast['dt_txt'] as String,
                                         ),
@@ -302,10 +310,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                       final temp = double.parse(
                                         forecast['main']['temp'].toString(),
                                       ).toStringAsFixed(0);
-                                      final description = forecast['weather']
-                                                  ?[0]?['description']
+
+                                      final condition = forecast['weather']?[0]
+                                                  ?['description']
                                               ?.toString() ??
                                           '';
+                                      final weatherIcon =
+                                          getWeatherIcon(condition);
 
                                       return Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -319,35 +330,34 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                               '$dayName, $date',
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
-                                                fontSize: 16,
                                               ),
                                             ),
                                             Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
                                               children: [
-                                                SvgPicture.asset(
-                                                  'assets/images/svg/cloudy.svg',
-                                                  colorFilter: ColorFilter.mode(
-                                                    Colors.blue.shade900,
-                                                    BlendMode.srcIn,
-                                                  ),
-                                                  height: 40,
+                                                Icon(
+                                                  weatherIcon.icon,
+                                                  color: weatherIcon.color,
+                                                  size: 15,
                                                 ),
                                                 const SizedBox(width: 10),
                                                 Text(
                                                   '$temp°C',
                                                   style: const TextStyle(
                                                     fontWeight: FontWeight.w600,
-                                                    fontSize: 16,
                                                   ),
                                                 ),
                                               ],
                                             ),
                                             Text(
-                                              description,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 14,
+                                              condition,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12,
+                                                color: Colors.grey.shade700,
                                               ),
+                                              textAlign: TextAlign.end,
                                             ),
                                           ],
                                         ),

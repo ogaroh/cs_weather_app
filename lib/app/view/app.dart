@@ -1,8 +1,8 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:assessment/l10n/l10n.dart';
-import 'package:assessment/theme/theme.dart';
-import 'package:assessment/theme/util.dart';
+import 'package:assessment/shared/theme/theme.dart';
+import 'package:assessment/shared/theme/util.dart';
 import 'package:assessment/weather/presentation/blocs/weather_bloc.dart';
 import 'package:assessment/weather/presentation/screens/weather_screen.dart';
 import 'package:assessment/weather/services/weather_repository.dart';
