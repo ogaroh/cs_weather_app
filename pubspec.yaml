@@ -1,5 +1,5 @@
 name: assessment
-description: A Very Good Project created by Very Good CLI.
+description: A Flutter project using the openweather API with best-practices.
 version: 1.0.0+1
 publish_to: none
 
