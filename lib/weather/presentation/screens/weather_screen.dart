@@ -6,6 +6,7 @@ import 'package:assessment/weather/presentation/blocs/weather_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 const defaultCity = 'Nairobi';
@@ -55,13 +56,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     fit: BoxFit.contain,
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
                     'Weather Forecast',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade300,
                     ),
                   ),
                 ),
@@ -71,7 +73,27 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     Expanded(
                       child: CupertinoSearchTextField(
                         controller: _cityController,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        prefixIcon: Icon(
+                          CupertinoIcons.search,
+                          color: Colors.grey.shade100,
+                        ),
                         placeholder: 'Enter the name of the city',
+                        placeholderStyle: TextStyle(
+                          fontSize: 13,
+                          color: Colors.grey.shade100,
+                          fontFamily: GoogleFonts.lato().fontFamily,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.grey.shade100,
+                          fontFamily: GoogleFonts.lato().fontFamily,
+                          fontWeight: FontWeight.bold,
+                        ),
                         onSubmitted: (value) {
                           final city = value.trim();
                           if (city.isNotEmpty) {
@@ -103,6 +125,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       child: const Text('Search'),
                     ),
                   ],
+                ),
+                const SizedBox(
+                  height: 8,
                 ),
                 // Weather Data Display
                 BlocBuilder<WeatherBloc, WeatherState>(
@@ -140,10 +165,11 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 ),
                                 child: Column(
                                   children: [
+                                    const SizedBox(height: 8),
                                     Text(
                                       "${state.weatherData['name'] as String? ?? ''}, ${state.weatherData['sys']['country'] as String? ?? ''}",
                                       style: const TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -177,8 +203,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                     // Hourly Forecast
                                     Container(
                                       height: 120,
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 16),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 16),
                                       child: ListView.builder(
                                         scrollDirection: Axis.horizontal,
                                         itemCount: 8,
