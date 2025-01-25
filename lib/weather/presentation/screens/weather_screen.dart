@@ -28,10 +28,15 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // dimensions
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+    // final height = size.height;
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -43,9 +48,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   fit: BoxFit.contain,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: const Text(
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: Text(
                   'Weather Forecast',
                   style: TextStyle(
                     fontSize: 16,
@@ -92,7 +97,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
               // Weather Data Display
               BlocBuilder<WeatherBloc, WeatherState>(
                 builder: (context, state) {
@@ -125,11 +129,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             Text(
                               "${state.weatherData['name'] as String? ?? ''}, ${state.weatherData['sys']['country'] as String? ?? ''}",
                               style: const TextStyle(
-                                fontSize: 24,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(height: 10),
                             Text(
                               '${double.parse(state.weatherData['main']['temp'].toString()).toStringAsFixed(0)}°C',
                               style: const TextStyle(
@@ -144,19 +147,19 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            const SizedBox(height: 10),
                             Text(
                               state.weatherData['weather']?[0]?['description']
                                       as String? ??
                                   '',
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w300,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey.shade700,
                               ),
                             ),
-
+                        
                             const SizedBox(height: 20),
-
+                        
                             // Hourly Forecast
                             SizedBox(
                               height: 120,
@@ -172,7 +175,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                       '';
                                   final hourlyIcon =
                                       getWeatherIcon(hourlyCondition);
-
+                        
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 8,
@@ -218,11 +221,11 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 },
                               ),
                             ),
-
+                        
                             const Divider(
                               height: 20,
                             ),
-
+                        
                             // Tomorrow's Forecast
                             Container(
                               padding: const EdgeInsets.all(16),
@@ -296,7 +299,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                         );
                                         return time.hour == 12;
                                       }).toList()[index];
-
+                        
                                       final dayName = DateFormat('EEE').format(
                                         DateTime.parse(
                                           forecast['dt_txt'] as String,
@@ -310,14 +313,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                       final temp = double.parse(
                                         forecast['main']['temp'].toString(),
                                       ).toStringAsFixed(0);
-
+                        
                                       final condition = forecast['weather']?[0]
                                                   ?['description']
                                               ?.toString() ??
                                           '';
                                       final weatherIcon =
                                           getWeatherIcon(condition);
-
+                        
                                       return Padding(
                                         padding: const EdgeInsets.symmetric(
                                           vertical: 8,
@@ -326,35 +329,46 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              '$dayName, $date',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w600,
+                                            Container(
+                                              width: width / 2.5,
+                                              margin: const EdgeInsets.only(
+                                                right: 8,
+                                              ),
+                                              child: Text(
+                                                '$dayName, $date',
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 11,
+                                                ),
                                               ),
                                             ),
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 Icon(
                                                   weatherIcon.icon,
                                                   color: weatherIcon.color,
-                                                  size: 15,
+                                                  size: 18,
                                                 ),
-                                                const SizedBox(width: 10),
+                                                const SizedBox(width: 8),
                                                 Text(
                                                   '$temp°C',
                                                   style: const TextStyle(
                                                     fontWeight: FontWeight.w600,
+                                                    fontSize: 11,
                                                   ),
                                                 ),
                                               ],
                                             ),
+                                            const Spacer(),
                                             Text(
                                               condition,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
-                                                fontSize: 12,
+                                                fontSize: 11,
                                                 color: Colors.grey.shade700,
                                               ),
                                               textAlign: TextAlign.end,
@@ -366,6 +380,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                   ),
                                 ],
                               ),
+                            ),
+                            const SizedBox(
+                              height: 16,
                             ),
                           ],
                         ),
