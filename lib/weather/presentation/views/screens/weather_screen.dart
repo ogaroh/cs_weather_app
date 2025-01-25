@@ -6,6 +6,7 @@ import 'package:assessment/shared/utils/snackbar.dart';
 import 'package:assessment/shared/utils/urls.dart';
 import 'package:assessment/shared/utils/weather_util.dart';
 import 'package:assessment/weather/presentation/state/blocs/weather_bloc.dart';
+import 'package:assessment/weather/presentation/views/widgets/connectivity_status.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -81,16 +82,22 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           ),
                         ),
                         const Spacer(),
-                        Padding(
-                          padding: EdgeInsets.zero,
-                          child: Text(
-                            'Weather Forecast',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey.shade100.withOpacity(0.9),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const ConnectivityStatusWidget(),
+                            Padding(
+                              padding: EdgeInsets.zero,
+                              child: Text(
+                                'Weather Forecast',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey.shade100.withOpacity(0.9),
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ],
                     ),
