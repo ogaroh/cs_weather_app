@@ -2,6 +2,7 @@
 // ignore_for_file: avoid_dynamic_calls, lines_longer_than_80_chars
 
 import 'package:assessment/shared/constants/constants.dart';
+import 'package:assessment/shared/utils/urls.dart';
 import 'package:assessment/shared/utils/weather_util.dart';
 import 'package:assessment/weather/presentation/blocs/weather_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,7 +24,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<WeatherBloc>().add(const FetchWeather(defaultCity));
+    context.read<WeatherBloc>().add(const FetchWeather(kDefaultCity));
   }
 
   @override
@@ -52,6 +53,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     vertical: 10,
                     horizontal: 10,
                   ),
+                  margin: const EdgeInsets.only(top: 8),
                   decoration: BoxDecoration(
                     color: Colors.grey.shade100.withOpacity(0.7),
                   ),
@@ -119,7 +121,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           _cityController.clear();
                           context
                               .read<WeatherBloc>()
-                              .add(const FetchWeather(defaultCity));
+                              .add(const FetchWeather(kDefaultCity));
                         },
                       ),
                     ),
@@ -180,11 +182,12 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           onRefresh: () async {
                             if (_cityController.text.isNotEmpty) {
                               context.read<WeatherBloc>().add(
-                                  FetchWeather(_cityController.text.trim()));
+                                    FetchWeather(_cityController.text.trim()),
+                                  );
                             } else {
                               context
                                   .read<WeatherBloc>()
-                                  .add(const FetchWeather(defaultCity));
+                                  .add(const FetchWeather(kDefaultCity));
                             }
                           },
                           child: SingleChildScrollView(
@@ -236,7 +239,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                       Container(
                                         height: 120,
                                         margin: const EdgeInsets.symmetric(
-                                            horizontal: 16),
+                                          horizontal: 16,
+                                        ),
                                         child: ListView.builder(
                                           scrollDirection: Axis.horizontal,
                                           itemCount: 8,
@@ -463,7 +467,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                                           size: 18,
                                                         ),
                                                         const SizedBox(
-                                                            width: 8),
+                                                          width: 8,
+                                                        ),
                                                         Text(
                                                           '$temp°C',
                                                           style:
@@ -502,8 +507,12 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                   height: 16,
                                 ),
                                 TextButton.icon(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     // launch my porfolio
+                                    await UrlLauncherUtil.customLaunchUrl(
+                                      kPortfolioURL,
+                                      context: context,
+                                    );
                                   },
                                   icon: const Icon(
                                     Icons.mobile_friendly,
