@@ -1,6 +1,7 @@
 // screens/weather_screen.dart
 // ignore_for_file: avoid_dynamic_calls, lines_longer_than_80_chars
 
+import 'package:assessment/shared/constants/constants.dart';
 import 'package:assessment/shared/utils/weather_util.dart';
 import 'package:assessment/weather/presentation/blocs/weather_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-
-const defaultCity = 'Nairobi';
 
 class WeatherScreen extends StatefulWidget {
   const WeatherScreen({super.key});
