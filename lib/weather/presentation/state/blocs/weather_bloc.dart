@@ -3,8 +3,8 @@
 import 'dart:io';
 
 import 'package:assessment/weather/services/weather_repository.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'weather_event.dart';
 part 'weather_state.dart';
