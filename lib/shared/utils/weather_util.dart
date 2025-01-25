@@ -64,6 +64,11 @@ WeatherIcon getWeatherIcon(String condition) {
         WeatherIcons.snow,
         Colors.lightBlue,
       );
+    case 'light snow':
+      return WeatherIcon(
+        WeatherIcons.snowflake_cold,
+        Colors.lightBlue,
+      );
     case 'mist':
       return WeatherIcon(
         WeatherIcons.fog,
