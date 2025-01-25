@@ -180,9 +180,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 8,
-                  ),
                   // Weather Data Display
                   BlocBuilder<WeatherBloc, WeatherState>(
                     builder: (context, state) {
@@ -226,6 +223,38 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 3,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(right: 3),
+                                            child: Icon(
+                                              Icons.calendar_month_sharp,
+                                              color: Colors.grey.shade100,
+                                              size: 11,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              'Last Updated: ${state.lastUpdated}',
+                                              style: TextStyle(
+                                                color: Colors.grey.shade100,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                   Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12),

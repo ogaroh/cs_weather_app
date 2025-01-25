@@ -1,9 +1,14 @@
+// ignore_for_file: inference_failure_on_function_invocation
+
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:assessment/shared/constants/constants.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -29,6 +34,8 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   Bloc.observer = const AppBlocObserver();
 
   // Add cross-flavor configuration here
+  await Hive.initFlutter();
+  await Hive.openBox(weatherBox);
   await dotenv.load();
 
   runApp(await builder());

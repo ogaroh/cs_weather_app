@@ -13,17 +13,20 @@ class WeatherInitial extends WeatherState {}
 class WeatherLoading extends WeatherState {}
 
 class WeatherLoaded extends WeatherState {
-
-  const WeatherLoaded({required this.weatherData, required this.forecastData});
+  const WeatherLoaded({
+    required this.weatherData,
+    required this.forecastData,
+    required this.lastUpdated,
+  });
   final Map<String, dynamic> weatherData;
   final Map<String, dynamic> forecastData;
+  final String lastUpdated;
 
   @override
   List<Object?> get props => [weatherData, forecastData];
 }
 
 class WeatherError extends WeatherState {
-
   const WeatherError({required this.message});
   final String message;
 

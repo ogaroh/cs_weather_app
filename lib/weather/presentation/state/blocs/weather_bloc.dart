@@ -1,6 +1,5 @@
 // blocs/weather_bloc.dart
 
-import 'dart:io';
 
 import 'package:assessment/weather/services/weather_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -18,27 +17,17 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
             await weatherRepository.fetchCurrentWeather(event.city);
         final forecastData =
             await weatherRepository.fetchWeatherForecast(event.city);
+
+        final lastUpdated = weatherRepository.getLastUpdated();
         emit(
           WeatherLoaded(
             weatherData: weatherData,
             forecastData: forecastData,
+            lastUpdated: lastUpdated,
           ),
         );
-      } on SocketException {
-        emit(
-          const WeatherError(
-            message: 'No internet connection. Please check your network.',
-          ),
-        );
-      } on Exception catch (e) {
-        emit(
-          WeatherError(
-            message: e.toString().replaceAll(
-                  'Exception: ',
-                  '',
-                ),
-          ),
-        );
+      } catch (e) {
+        emit(WeatherError(message: e.toString()));
       }
     });
   }
