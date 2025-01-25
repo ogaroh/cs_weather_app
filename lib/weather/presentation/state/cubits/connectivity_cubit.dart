@@ -18,7 +18,7 @@ class ConnectivityCubit extends Cubit<ConnectivityState> {
         emit(ConnectivityOffline());
       } else {
         // Ping a site to verify actual internet access
-        final bool canReachInternet = await _pingSite();
+        final canReachInternet = await _pingSite();
         if (canReachInternet) {
         emit(ConnectivityOnline());
         } else {
