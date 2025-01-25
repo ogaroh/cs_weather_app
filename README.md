@@ -29,6 +29,10 @@ $ flutter run --flavor staging --target lib/main_staging.dart
 $ flutter run --flavor production --target lib/main_production.dart
 ```
 
+alternatively, on Visual Studio Code:
+- Go to `Run and Debug`
+- Select either `Launch development`, `Launch staging` or `Launch production` then click on the `Run` button as show below
+
 _\*Assessment works on iOS & Android._
 
 ---
