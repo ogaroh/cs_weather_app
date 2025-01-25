@@ -1,4 +1,7 @@
 // blocs/weather_bloc.dart
+
+import 'dart:io';
+
 import 'package:assessment/weather/services/weather_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -8,8 +11,6 @@ part 'weather_state.dart';
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   WeatherBloc(this.weatherRepository) : super(WeatherInitial()) {
-    
-    // on receive the fetch weather event
     on<FetchWeather>((event, emit) async {
       emit(WeatherLoading());
       try {
@@ -23,10 +24,17 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
             forecastData: forecastData,
           ),
         );
-      } catch (e) {
-        emit(const WeatherError(message: 'Could not fetch weather data.'));
+      } on SocketException {
+        emit(
+          const WeatherError(
+            message: 'No internet connection. Please check your network.',
+          ),
+        );
+      } on Exception catch (e) {
+        emit(WeatherError(message: e.toString()));
       }
     });
   }
+
   final WeatherRepository weatherRepository;
 }

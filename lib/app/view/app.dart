@@ -1,5 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
+import 'package:assessment/counter/cubit/counter_cubit.dart';
 import 'package:assessment/l10n/l10n.dart';
 import 'package:assessment/shared/theme/theme.dart';
 import 'package:assessment/shared/theme/util.dart';
@@ -24,6 +25,9 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => WeatherBloc(WeatherRepository()),
+        ),
+        BlocProvider(
+          create: (context) => CounterCubit(),
         ),
       ],
       child: MaterialApp(
