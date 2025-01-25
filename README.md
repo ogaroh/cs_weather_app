@@ -1,4 +1,4 @@
-![nairobi](https://github.com/user-attachments/assets/f588f71d-b531-4a25-9e1e-40fba4260b5a)# WeatherApp
+# WeatherApp
 
 ![coverage][coverage_badge]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
