@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 const defaultCity = 'Nairobi';
 
@@ -169,7 +170,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                         Text(
                                           '${double.parse(forecast['main']['temp'].toString()).toStringAsFixed(0)}°C',
                                           style: const TextStyle(
-                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         const SizedBox(height: 5),
@@ -183,10 +184,16 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                         ),
                                         const SizedBox(height: 5),
                                         Text(
-                                          forecast['dt_txt']
-                                              .split(' ')[1]
-                                              .toString(),
-                                          style: const TextStyle(),
+                                          DateFormat('HH:mm').format(
+                                            DateTime.parse(
+                                              forecast['dt_txt'].toString(),
+                                            ),
+                                          ),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10,
+                                            color: Colors.grey.shade700,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -245,6 +252,111 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 ],
                               ),
                             ),
+                            // 5-Day Forecast
+                            const Divider(
+                              height: 20,
+                            ),
+                            Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    '5-Day Forecast',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: 5,
+                                    itemBuilder: (context, index) {
+                                      final forecast = state
+                                          .forecastData['list']
+                                          .where((dynamic item) {
+                                        // Filter to get one forecast per day at midday (12:00)
+                                        final time = DateTime.parse(
+                                          item['dt_txt'] as String,
+                                        );
+                                        return time.hour == 12;
+                                      }).toList()[index];
+
+                                      final dayName = DateFormat('EEEE').format(
+                                        DateTime.parse(
+                                          forecast['dt_txt'] as String,
+                                        ),
+                                      );
+                                      final date = DateFormat('d MMM').format(
+                                        DateTime.parse(
+                                          forecast['dt_txt'] as String,
+                                        ),
+                                      );
+                                      final temp = double.parse(
+                                        forecast['main']['temp'].toString(),
+                                      ).toStringAsFixed(0);
+                                      final description = forecast['weather']
+                                                  ?[0]?['description']
+                                              ?.toString() ??
+                                          '';
+
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 8,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '$dayName, $date',
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                            Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                  'assets/images/svg/cloudy.svg',
+                                                  colorFilter: ColorFilter.mode(
+                                                    Colors.blue.shade900,
+                                                    BlendMode.srcIn,
+                                                  ),
+                                                  height: 40,
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Text(
+                                                  '$temp°C',
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              description,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -253,7 +365,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     return Center(
                       child: Text(
                         state.message,
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(),
                       ),
                     );
                   }
