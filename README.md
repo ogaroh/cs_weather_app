@@ -50,3 +50,7 @@ _\*Assessment works on iOS & Android._
 ### Internet Status
 ![offline](https://github.com/user-attachments/assets/f44011de-e3b1-4a9c-955b-a3ebd429d48f)
 ![online](https://github.com/user-attachments/assets/d2bba7b9-959b-4ff3-ab8c-8b6b05a25061)
+
+### Last Updated Timestamp
+![last updated](https://github.com/user-attachments/assets/166b67b9-f2ec-4627-8ad1-412b5570d36d)
+
