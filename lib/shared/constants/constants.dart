@@ -5,3 +5,5 @@ final String kBaseUrl = dotenv.env['BASE_URL'] ?? '';
 
 const kDefaultCity = 'Nairobi';
 const kPortfolioURL = 'https://ogaroh.github.io';
+
+const weatherBox = 'weatherBox';
