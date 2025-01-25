@@ -31,7 +31,14 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
           ),
         );
       } on Exception catch (e) {
-        emit(WeatherError(message: e.toString()));
+        emit(
+          WeatherError(
+            message: e.toString().replaceAll(
+                  'Exception: ',
+                  '',
+                ),
+          ),
+        );
       }
     });
   }

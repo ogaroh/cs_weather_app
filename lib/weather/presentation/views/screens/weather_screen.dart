@@ -5,7 +5,7 @@ import 'package:assessment/shared/constants/constants.dart';
 import 'package:assessment/shared/utils/snackbar.dart';
 import 'package:assessment/shared/utils/urls.dart';
 import 'package:assessment/shared/utils/weather_util.dart';
-import 'package:assessment/weather/presentation/blocs/weather_bloc.dart';
+import 'package:assessment/weather/presentation/state/blocs/weather_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -224,10 +224,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                       borderRadius: BorderRadius.circular(12),
                                       color: Colors.grey.shade100,
                                       gradient: LinearGradient(
-                                        begin: Alignment
-                                            .topRight,
-                                        end: Alignment
-                                            .bottomLeft,
+                                        begin: Alignment.topRight,
+                                        end: Alignment.bottomLeft,
                                         colors: [
                                           const Color.fromARGB(
                                             255,
