@@ -9,7 +9,7 @@ class UrlLauncherUtil {
   static Future<void> customLaunchUrl(
     String url, {
     required BuildContext context,
-    bool isExternal = false,
+    bool isExternal = true,
   }) async {
     final uri = Uri.parse(url);
 

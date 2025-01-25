@@ -205,24 +205,76 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               children: [
                                 Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
+                                    borderRadius: BorderRadius.circular(12),
                                     color: Colors.grey.shade100,
+                                    gradient: LinearGradient(
+                                      begin: Alignment
+                                          .topRight, // Gradient start position
+                                      end: Alignment
+                                          .bottomLeft, // Gradient end position
+                                      colors: [
+                                        const Color.fromARGB(255, 199, 153, 248)
+                                            .withOpacity(0.8),
+                                        const Color(0xFF2575FC)
+                                            .withOpacity(0.5),
+                                        Colors.grey.shade100,
+                                        const Color(0xFF2575FC)
+                                            .withOpacity(0.5),
+                                        const Color.fromARGB(255, 199, 153, 248)
+                                            .withOpacity(0.8),
+                                      ],
+                                      stops: const [
+                                        0.0,
+                                        0.2,
+                                        0.5,
+                                        0.8,
+                                        1.0,
+                                      ],
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius: 8,
+                                        offset: const Offset(
+                                          0,
+                                          4,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   child: Column(
+                                
                                     children: [
                                       const SizedBox(height: 8),
-                                      Text(
-                                        "${state.weatherData['name'] as String? ?? ''}, ${state.weatherData['sys']['country'] as String? ?? ''}",
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 5,
+                                            ),
+                                            child: Icon(
+                                              Icons.location_on,
+                                            ),
+                                          ),
+                                          Text(
+                                            "${state.weatherData['name'] as String? ?? ''}, ${state.weatherData['sys']['country'] as String? ?? ''}",
+                                            style: const TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                       Text(
                                         '${double.parse(state.weatherData['main']['temp'].toString()).toStringAsFixed(0)}°C',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 64,
                                           fontWeight: FontWeight.bold,
+                                          fontFamily: GoogleFonts.merriweather()
+                                              .fontFamily,
                                         ),
                                       ),
                                       Text(
@@ -243,11 +295,17 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                         ),
                                       ),
 
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+
                                       // Hourly Forecast
                                       Container(
                                         height: 120,
-                                        margin: const EdgeInsets.symmetric(
-                                          horizontal: 16,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade100,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
                                         ),
                                         child: ListView.builder(
                                           scrollDirection: Axis.horizontal,
@@ -330,7 +388,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 Container(
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
+                                    borderRadius: BorderRadius.circular(12),
                                     color: Colors.grey.shade100,
                                   ),
                                   child: Column(
@@ -380,7 +438,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
                                     color: Colors.grey.shade100,
-                                    borderRadius: BorderRadius.circular(8),
+                                    borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
