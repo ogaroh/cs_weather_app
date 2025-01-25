@@ -17,14 +17,14 @@ class ConnectivityStatusWidget extends StatelessWidget {
             context,
             "You're offline. Please connect to the internet and try again.",
             color: Colors.red.shade700,
-            icon: Icons.cancel,
+            icon: Icons.wifi_off,
           );
         } else if (state is ConnectivityOnline) {
           showSnackbar(
             context,
             "You're back online. Refresh the page to get latest data.",
             color: Colors.green.shade700,
-            icon: Icons.check_circle,
+            icon: Icons.wifi_outlined,
           );
         }
       },
