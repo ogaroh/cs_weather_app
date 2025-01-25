@@ -33,7 +33,12 @@ $ flutter run --flavor production --target lib/main_production.dart
 Alternatively, on Visual Studio Code:
 
 - Go to `Run and Debug`
-- Select either `Launch development`, `Launch staging` or `Launch production` then click on the `Run` button as show below
+- Select either `Launch development`, `Launch staging` or `Launch production` then click on the `Run` button as shown below
+
+<img width="380" alt="Screenshot 2025-01-26 at 00 50 22" src="https://github.com/user-attachments/assets/86372f9a-b004-4edd-a8b6-fa7d194f9630" />
+<img width="360" alt="Screenshot 2025-01-26 at 00 50 15" src="https://github.com/user-attachments/assets/ce6f9ec1-51a3-4803-8bce-db979a361c24" />
+
+
 
 _\*WeatherApp works on iOS & Android._
 
@@ -44,9 +49,6 @@ _\*WeatherApp works on iOS & Android._
 ### Cities
 
 ![nairobi](https://github.com/user-attachments/assets/eb33d412-82fd-4baa-866b-0c4c20bf1c13)
-
-![tokyo](https://github.com/user-attachments/assets/61287bff-9f12-418d-b321-91a![City Not found0](https://github.com/user-attachments/assets/8953b1d2-c530-40cd-a522-19bf47f7d1a9)
-0636ace02)
 
 ![joburg](https://github.com/user-attachments/assets/655785f6-65ec-44b8-b1e2-43a9ba460b9e)
 
