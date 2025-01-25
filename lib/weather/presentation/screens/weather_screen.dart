@@ -49,7 +49,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -58,7 +58,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           vertical: 10,
                           horizontal: 10,
                         ),
-                        margin: EdgeInsets.only(top: 8),
+                        margin: const EdgeInsets.only(top: 8),
                         decoration: BoxDecoration(
                           color: Colors.grey.shade100.withOpacity(0.7),
                         ),
@@ -70,7 +70,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       ),
                       const Spacer(),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 0),
+                        padding: EdgeInsets.zero,
                         child: Text(
                           'Weather Forecast',
                           style: TextStyle(
