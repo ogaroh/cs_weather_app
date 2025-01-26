@@ -41,6 +41,7 @@ class App extends StatelessWidget {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: const WeatherScreen(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
