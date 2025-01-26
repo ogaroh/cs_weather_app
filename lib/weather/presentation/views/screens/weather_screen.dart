@@ -662,6 +662,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                     style: TextButton.styleFrom(
                                       foregroundColor: Colors.grey.shade100,
                                       backgroundColor: Colors.transparent,
+                                      visualDensity: VisualDensity.compact,
                                     ),
                                   ),
                                 ],
