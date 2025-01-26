@@ -447,7 +447,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
                                   // Tomorrow's Forecast
                                   Container(
-                                    padding: const EdgeInsets.all(16),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 8,
+                                    ),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12),
                                       color: Colors.grey.shade100,
@@ -529,18 +532,15 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                               return time.hour == 12;
                                             }).toList()[index];
 
+                                            final fDate = DateTime.parse(
+                                              forecast['dt_txt'] as String,
+                                            );
+
                                             final dayName =
-                                                DateFormat('EEE').format(
-                                              DateTime.parse(
-                                                forecast['dt_txt'] as String,
-                                              ),
-                                            );
-                                            final date =
-                                                DateFormat('d MMM').format(
-                                              DateTime.parse(
-                                                forecast['dt_txt'] as String,
-                                              ),
-                                            );
+                                                DateFormat('EEE').format(fDate);
+                                            final date = DateFormat('d MMM')
+                                                .format(fDate);
+                                                
                                             final temp = double.parse(
                                               forecast['main']['temp']
                                                   .toString(),
