@@ -144,7 +144,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           },
                           onChanged: (value) {
                             final city = value.trim();
-                            if (city.isNotEmpty) {
+                            if (city.isNotEmpty && city.length >= 4) {
                               context
                                   .read<WeatherBloc>()
                                   .add(FetchWeather(city));
