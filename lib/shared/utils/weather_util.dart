@@ -75,6 +75,36 @@ WeatherIcon getWeatherIcon(String condition) {
         Colors.grey.shade400,
       );
     default:
+      if (condition.contains('rain')) {
+        return WeatherIcon(
+          WeatherIcons.rain,
+          Colors.blue.shade500,
+        );
+      }
+      if (condition.contains('snow')) {
+        return WeatherIcon(
+          WeatherIcons.snow_wind,
+          Colors.lightBlue,
+        );
+      }
+      if (condition.contains('cloud')) {
+        return WeatherIcon(
+          WeatherIcons.cloudy,
+          Colors.grey.shade700,
+        );
+      }
+      if (condition.contains('sun')) {
+        return WeatherIcon(
+          WeatherIcons.day_sunny_overcast,
+          Colors.deepOrange,
+        );
+      }
+      if (condition.contains('clear')) {
+        return WeatherIcon(
+          WeatherIcons.night_clear,
+          Colors.blueAccent,
+        );
+      }
       return WeatherIcon(
         WeatherIcons.alien,
         Colors.teal.shade400,
