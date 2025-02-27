@@ -46,22 +46,11 @@ _\*WeatherApp works on iOS & Android._
 
 ## Sample Screenshots 📲
 
-### Cities
+### Cities, Search, Last Updated & Online Status
+![Image_1](https://github.com/user-attachments/assets/28f633bc-fdf1-49ac-8dc2-e92f8542731a)
 
-![nairobi](https://github.com/user-attachments/assets/eb33d412-82fd-4baa-866b-0c4c20bf1c13)
+![Image_2](https://github.com/user-attachments/assets/f44c09b2-9c84-4930-8039-2e6e5e68c143)
 
-![joburg](https://github.com/user-attachments/assets/655785f6-65ec-44b8-b1e2-43a9ba460b9e)
+![Image_3](https://github.com/user-attachments/assets/2826dae8-dbc9-4b2b-bed4-f38e1491d3b3)
 
-### Errors
 
-![invalid API key](https://github.com/user-attachments/assets/8ef03b9a-4da4-4c7c-bc39-87770e24c7b4)
-![City Not found0](https://github.com/user-attachments/assets/b51b7a10-5ab0-426f-9960-be54b5c752f4)
-
-### Internet Status
-
-![offline](https://github.com/user-attachments/assets/f44011de-e3b1-4a9c-955b-a3ebd429d48f)
-![online](https://github.com/user-attachments/assets/d2bba7b9-959b-4ff3-ab8c-8b6b05a25061)
-
-### Last Updated Timestamp
-
-![last updated](https://github.com/user-attachments/assets/166b67b9-f2ec-4627-8ad1-412b5570d36d)
