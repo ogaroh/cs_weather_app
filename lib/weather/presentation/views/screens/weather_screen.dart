@@ -67,27 +67,20 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 10,
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           margin: const EdgeInsets.only(top: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade100.withOpacity(0.7),
-                          ),
                           child: Image.asset(
-                            'assets/images/png/cs_logo.png',
-                            height: 30,
+                            'assets/images/png/weather.png',
+                            height: 50,
                             fit: BoxFit.contain,
                           ),
                         ),
-                        const Spacer(),
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const ConnectivityStatusWidget(),
                             Padding(
-                              padding: EdgeInsets.zero,
+                              padding: const EdgeInsets.only(bottom: 5),
                               child: Text(
                                 'Weather Forecast',
                                 style: TextStyle(
@@ -97,8 +90,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 ),
                               ),
                             ),
+                            const ConnectivityStatusWidget(),
                           ],
                         ),
+                        const Spacer(),
                       ],
                     ),
                   ),
@@ -540,7 +535,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                                 DateFormat('EEE').format(fDate);
                                             final date = DateFormat('d MMM')
                                                 .format(fDate);
-                                                
+
                                             final temp = double.parse(
                                               forecast['main']['temp']
                                                   .toString(),
@@ -650,7 +645,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                       size: 18,
                                     ),
                                     label: Text(
-                                      'Crafted by Erick Ogaro',
+                                      'Made by Erick Ogaro',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 11,
